@@ -43,7 +43,6 @@ def handleReport(report):
             reportRow['Vulnerability'] = item.attrib['pluginName']
             for tag in (tag for tag in item if tag.tag in nessusFields):
                 reportRow[getKey(tag.tag)] = getValue(tag.text)
-            if reportRow['CVSS Score'] != "":
                 findings.append(reportRow)
     return findings
 
@@ -69,11 +68,11 @@ if __name__ == '__main__':
         exit()
     else:
          print(f'[*] Found {len(nessusFiles)} nessus files!')
-
+    
+    reportRows = []
+    findings = []
     # Get reports from nessus file
     for file in nessusFiles:
-        reportRows = []
-        findings = []
 
         tree = ET.parse(file)
         root = tree.getroot()
